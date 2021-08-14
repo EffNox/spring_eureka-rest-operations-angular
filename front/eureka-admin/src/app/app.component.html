@@ -1,0 +1,63 @@
+<div align="center">
+  <br />
+  <h1>{{ title }}</h1>
+  <a href="http://localhost:8761" target="_blank">Eureka Server UI</a>
+  <p>When changing status or deleting a service, you must wait a period of time until the values are updated in the api (it does not happen in Eureka Admin)</p>
+  <div *ngFor="let dt of dataSource; index as i">
+    <br />
+    <h3>{{ dt.name }}</h3>
+    <table mat-table [dataSource]="dt?.instance" class="mat-elevation-z5 demo-table">
+      <ng-container matColumnDef="n">
+        <th mat-header-cell *matHeaderCellDef>Nº</th>
+        <td mat-cell *matCellDef="let e; index as idx">{{ idx + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="instanceId">
+        <th mat-header-cell *matHeaderCellDef>Instance Id</th>
+        <td mat-cell *matCellDef="let e">{{ e.instanceId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="homePageUrl">
+        <th mat-header-cell *matHeaderCellDef>Index Page</th>
+        <td mat-cell *matCellDef="let e">
+          <a [href]="e.homePageUrl" target="_blanck">{{ e.homePageUrl }}</a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let e">{{ e.status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fullInfo">
+        <th mat-header-cell *matHeaderCellDef>Full Inf.</th>
+        <td mat-cell *matCellDef="let e">{{ e.status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let e">
+          <button mat-mini-fab color="primary" (click)="get(dt.name, e.instanceId)">
+            <mat-icon>info</mat-icon></button
+          > 
+          <button mat-mini-fab *ngIf="e.status === 'OUT_OF_SERVICE'" color="primary" (click)="changeStatus(dt.name, e.instanceId, 'UP')">
+            <mat-icon>upload</mat-icon>
+          </button>
+          <button mat-mini-fab *ngIf="e.status === 'UP'" color="warn" (click)="changeStatus(dt.name, e.instanceId, 'OUT_OF_SERVICE')">
+            <mat-icon>get_app</mat-icon></button
+          > 
+          <button mat-mini-fab color="warn" (click)="deletee(dt.name, e.instanceId)">
+            <mat-icon>delete</mat-icon></button
+          > 
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <br />
+  <div *ngFor="let dt of this.instanceInfo | keyvalue">
+    <b>{{ dt.key }}: {{ dt.value }}</b>
+  </div>
+</div>

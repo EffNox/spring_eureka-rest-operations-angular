@@ -1,0 +1,35 @@
+repos:
+  - repo: local
+    hooks:
+      - id: restricted-filenames
+        name: Nombres de archivos no permitidos
+        entry: No se permite estos archivos
+        language: fail
+        files: .*\.(xlsx|docx)
+      - id: restricted-file-types
+        name: Tipos de archivo no permitidos
+        entry: Estos tipos de archivos son inusuales y deben comprobarse
+        language: fail
+        types: [binary]
+        exclude_types: [jar, icon]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      # - id: trailing-whitespace
+      # - id: end-of-file-fixer
+      - id: check-case-conflict
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: [--maxkb=20]
+        exclude_types: [jar]
+      - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.3.2
+    hooks:
+      - id: prettier
+        args:
+          [--single-quote, --arrow-parens=avoid, --prose-wrap=never, --print-width=5000, --end-of-line=crlf, --trailing-comma=all]
+          # types: [javascript]

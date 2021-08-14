@@ -1,0 +1,13 @@
+node_modules
+*env
+uploads
+package-lock.json
+_.txt
+*.mp4
+*.flv
+*.jpg
+*.jpeg
+*.png
+*.gif
+.vscode
+*.jar
